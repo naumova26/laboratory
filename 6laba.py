@@ -3,30 +3,26 @@ from random import randint
 from tkinter import Tk, Button, Label, Entry, messagebox, StringVar
 from tkinter.filedialog import askopenfilename
 
-# Функция для генерации файла с числами
 def generate():
     file_name = askopenfilename(defaultextension=".txt", filetypes=[("Text files", ".txt"), ("All files", "*.*")])
     if not file_name:
         messagebox.showinfo("Info", "Файл не выбран")
         return
 
-    # Генерация файла с случайными числами
     with open(file_name, 'w') as temp_file:
         for i in range(10):
             temp_file.write(str(randint(1, 50)) + " ")
 
-    # Чтение содержимого файла
     with open(file_name, 'r') as temp_file:
         content = temp_file.read()
-        output.set("Содержимое: " + content)
+        output.set("Содержимое файла: \n" + content)
         numbers = list(map(int, content.split()))
         if numbers:
             average = sum(numbers) / len(numbers)
-            output.set(output.get() + f"\nСр. значение: {average}")
+            output.set(output.get() + f"\nСреднее значение: {average:.2f}")
         else:
             output.set(output.get() + "\nФайл пуст")
 
-# Функция для выполнения математических операций
 def math_operations():
     try:
         a = int(entry_a.get())
@@ -39,40 +35,38 @@ def math_operations():
         ]
 
         if b != 0:
-            results.append(f'{a} / {b} = {a / b}')
+            results.append(f'{a} / {b} = {a / b:.2f}')
         else:
             results.append("Деление на 0 невозможно")
 
         output.set("\n".join(results))
     except ValueError:
-        output.set("Пожалуйста, введите действительные числа.")
+        output.set("Ошибка: Пожалуйста, введите действительные числа.")
 
-# Настройка графического интерфейса
+def clear():
+    entry_a.delete(0, 'end')
+    entry_b.delete(0, 'end')
+    output.set("")
+
 root = Tk()
 root.configure(bg='lightblue')
-root.title("laba6")
-root.geometry("500x400")
+root.title("Лабораторная работа 6")
+root.geometry("500x500")
 
-# Переменная для вывода результатов
 output = StringVar()
-output_label = Label(root, textvariable=output, wraplength=400)
+output_label = Label(root, textvariable=output, wraplength=400, bg='lightyellow', relief="sunken", width=50, height=6)
 output_label.pack(pady=20)
 
-# Кнопка для генерации чисел
-Button(root, text="Генерировать числа", command=generate).pack(pady=5)
-
-# Поле ввода для первого числа
-Label(root, text="Первое число:").pack()
+Button(root, text="Генерировать числа", command=generate, bg='lightgreen').pack(pady=5)
+Label(root, text="Первое число:", bg='lightblue').pack()
 entry_a = Entry(root)
 entry_a.pack(pady=5)
 
-# Поле ввода для второго числа
-Label(root, text="Второе число:").pack()
+Label(root, text="Второе число:", bg='lightblue').pack()
 entry_b = Entry(root)
 entry_b.pack(pady=5)
 
-# Кнопка для выполнения математических операций
-Button(root, text="Выполнить математические операции", command=math_operations).pack(pady=20)
+Button(root, text="Выполнить операции", command=math_operations, bg='lightcoral').pack(pady=20)
+Button(root, text="Очистить", command=clear, bg='lightgrey').pack(pady=5)
 
-# Запуск основного цикла программы
 root.mainloop()
