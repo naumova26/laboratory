@@ -9,10 +9,16 @@ def generate():
         messagebox.showinfo("Info", "Файл не выбран")
         return
 
+<<<<<<< HEAD
     with open(file_name, 'w') as temp_file:
         for i in range(10):
             temp_file.write(str(randint(1, 50)) + " ")
 
+=======
+    with open(file_name, 'a') as temp_file:
+        for i in range(5):
+            temp_file.write(str(randint(1, 100)) + "\n")
+>>>>>>> feature_branch
     with open(file_name, 'r') as temp_file:
         content = temp_file.read()
         output.set("Содержимое файла: \n" + content)
@@ -42,7 +48,7 @@ def math_operations():
         output.set("\n".join(results))
     except ValueError:
         output.set("Ошибка: Пожалуйста, введите действительные числа.")
-
+        
 def clear():
     entry_a.delete(0, 'end')
     entry_b.delete(0, 'end')
@@ -58,6 +64,7 @@ output_label = Label(root, textvariable=output, wraplength=400, bg='lightyellow'
 output_label.pack(pady=20)
 
 Button(root, text="Генерировать числа", command=generate, bg='lightgreen').pack(pady=5)
+
 Label(root, text="Первое число:", bg='lightblue').pack()
 entry_a = Entry(root)
 entry_a.pack(pady=5)
